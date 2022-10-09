@@ -29,7 +29,7 @@
           <div class="card-body">
             <form th:action="@{/vacantes/save}" method="post" th:object="${vacante}" enctype="multipart/form-data">  
              
-              <div th:if="${#fields.hasErrors('*')}"class='alert alert-danger' role='alert'>
+              <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role='alert'>
 				Por favor corrija los siguientes errores:
 				<ul>
 				<li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
@@ -40,6 +40,8 @@
                 <div class="col-md-3"> 
                   <div class="form-group">
                     <label for="nombre">Nombre</label>
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{imagen}">
                     <input type="text" class="form-control" th:field="*{nombre}" id="nombre" name="nombre" placeholder="Titulo de la oferta de trabajo" required="required">
                   </div>
                 </div>
@@ -54,7 +56,7 @@
                 <div class="col-md-3"> 
                   <div class="form-group">
                     <label for="categoria">Categoría</label>
-                    <select class="form-control" th:field="*{categoria.id}">
+                   <select class="form-control" th:field="*{categoria.id}">
                       <option th:each="categoria : ${categorias}" 
 		                      th:value="${categoria.id}" 
 		                      th:text="${categoria.nombre}"></option>                     
@@ -114,7 +116,7 @@
                 </div> 
                 <div class="col-md-3">
                   <label for="imagen">Imagen/Logo</label>
-                  <img class="rounded mx-auto d-block" src="images/construccion-logo.png" alt="Generic placeholder image" width="200" height="200">            
+                  <img class="rounded mx-auto d-block" th:src="@{/logos/{img} (img=${vacante.imagen})}" alt="Generic placeholder image" width="200" height="200">            
                 </div>
               </div> 
               <button type="submit" class="btn btn-primary">Guardar</button>  

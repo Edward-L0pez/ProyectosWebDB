@@ -8,15 +8,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import net.itinajero.model.Perfil;
+import net.itinajero.model.Usuario;
 import net.itinajero.model.Vacante;
+import net.itinajero.service.ICategoriasService;
+import net.itinajero.service.IUsuariosService;
 import net.itinajero.service.IVacantesService;
 
 @Controller
 public class HomeController {
 	
+	
+	@Autowired
+	private ICategoriasService serviceCategorias;
+	
 	@Autowired
 	private IVacantesService serviceVacantes;
+
+	@Autowired
+    private IUsuariosService serviceUsuarios;
+
+	
+
+
+	@GetMapping("/signup")
+	public String registrarse(Usuario usuario,Model model) {
+		return "usuarios/formRegistro";
+	}
+
+	@PostMapping("/signup")
+	public String guardarRegistro(Usuario usuario, RedirectAttributes attributes) {
+		attributes = attributes;
+		usuario.setEstatus(1);
+		usuario.setFechaRegistro(new Date());
+
+		 Perfil perfil = new Perfil();
+		 perfil.setId(3);
+		 
+		 serviceUsuarios.guardar(usuario);
+			attributes.addFlashAttribute("msg", "Usuario registrado exitosamente");		
+			return "redirect:/usuarios/index";
+		 
+		
+	}
+	
+	
 	
 	@GetMapping("/tabla")
 	public String mostrarTabla(Model model) {
@@ -56,11 +95,26 @@ public class HomeController {
 		return "home";
 	}
 	
-	@ModelAttribute
+	@GetMapping("/search")
+	public String buscar(@ModelAttribute("search") Vacante vacante, Model model) {
+		System.out.println("buscando por" +  vacante);
 		
+		//ExampleMatcher matcher = ExampleMatcher.
+				//where descripcion like '%?%'
+			//	matching().withMatcher("descripcion", ExampleMatcher.GenericPropertyMatchers.contains());
+		
+	//	Example<Vacante> example = Example.of(vacante, matcher);
+		//List<Vacante> lista = serviceVacantes.buscarByExample(example);
+		//model.addAttribute("vacantes", lista);
+		return "home";
+	}
+	
+	@ModelAttribute
 	public void setGenericos(Model model) {
-	
+		Vacante vacanteSearch = new Vacante();
+		vacanteSearch.reset();
 		model.addAttribute("vacantes", serviceVacantes.buscarDestacadas());
-	
+		model.addAttribute("categorias", serviceCategorias.buscarTodas());
+		model.addAttribute("search", vacanteSearch);
 	}
 }
