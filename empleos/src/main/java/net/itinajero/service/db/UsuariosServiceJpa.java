@@ -36,4 +36,10 @@ public class UsuariosServiceJpa implements IUsuariosService {
 		return usuariosRepo.findAll();
 	}
 
+	@Override
+	public Usuario buscarPorUserName(String username) {
+		// TODO Auto-generated method stub
+		return usuariosRepo.findByUsername(username);
+	}
+
 }
