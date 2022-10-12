@@ -3,10 +3,12 @@ package net.itinajero.controller;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -97,7 +99,15 @@ public class HomeController {
 	@GetMapping("/")
 	public String mostrarHome(Model model) {
 		
+		
 		return "home";
+	}
+	
+	@GetMapping("/index")
+	public String mostrarIndex(Authentication auth)  {
+		String username = auth.getName();
+		System.out.println("Nombre del usuario: " + username);
+		return "redirect:/";
 	}
 	
 	/**

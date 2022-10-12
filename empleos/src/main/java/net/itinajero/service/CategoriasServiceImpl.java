@@ -91,11 +91,11 @@ public class CategoriasServiceImpl implements ICategoriasService{
 		
 	}
 
-	@Override
+	/*@Override
 	public List<Categoria> buscarByExample(Example<Categoria> example) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 	@Override
 	public Page<Categoria> buscarTodas(Pageable page) {

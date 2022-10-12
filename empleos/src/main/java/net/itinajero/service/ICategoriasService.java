@@ -13,7 +13,7 @@ public interface ICategoriasService {
 	List<Categoria> buscarTodas();
 	Categoria buscarPorId(Integer idCategoria);
 	void eliminar(Integer idCategoria);	
-	List<Categoria> buscarByExample(Example<Categoria> example);
+	//List<Categoria> buscarByExample(Example<Categoria> example);
 	Page<Categoria>buscarTodas(Pageable page);
 	
 }
