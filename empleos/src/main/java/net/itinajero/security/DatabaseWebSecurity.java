@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.annotation.Bean;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +35,7 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 				// Los recursos estáticos no requieren autenticación
 				.antMatchers("/bootstrap/**", "/images/**", "/tinymce/**", "/logos/**").permitAll()
 				// Las vistas públicas no requieren autenticación
-				.antMatchers("/", "/signup", "/search", "/vacantes/view/**").permitAll()
+				.antMatchers("/", "/signup", "/search", "/bcrypt/**", "/vacantes/view/**").permitAll()
 				
 				
 				// Asignar permisos a URLs por ROLES
@@ -46,6 +49,11 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				// El formulario de Login no requiere autenticacion
 				.and().formLogin().permitAll();
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 }
