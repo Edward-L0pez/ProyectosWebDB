@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
@@ -110,6 +112,19 @@ public class HomeController {
 		
 		return "listado";
 	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request) {
+		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+		logoutHandler.logout(request, null, null);
+		return "redirect:/login";
+	}
+
+	@GetMapping("/login")
+	public String mostrarLogin() {
+		return "formLogin";
+	}
+
 	
 	@GetMapping("/bcrypt/{texto}")
 	@ResponseBody
